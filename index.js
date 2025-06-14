@@ -26,6 +26,23 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+
+     const eventsCollection = client.db('athleticsHub').collection('events');
+
+
+     app.get('/events', async (req, res) => {
+            const events = await eventsCollection.find().toArray();
+            res.send(events);
+        });
+
+     app.post('/events', async (req, res) => {
+            const newEvent = req.body;
+            console.log(newEvent);
+            const result = await eventsCollection.insertOne(newEvent);
+            res.send(result);
+        });
+
+
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
