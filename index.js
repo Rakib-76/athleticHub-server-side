@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,20 +27,27 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
 
-     const eventsCollection = client.db('athleticsHub').collection('events');
+    const eventsCollection = client.db('athleticsHub').collection('events');
 
 
-     app.get('/events', async (req, res) => {
-            const events = await eventsCollection.find().toArray();
-            res.send(events);
-        });
+    app.get('/events', async (req, res) => {
+      const events = await eventsCollection.find().toArray();
+      res.send(events);
+    });
+    app.get('/events/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await eventsCollection.findOne(query);
+      res.send(result);
+    });
 
-     app.post('/events', async (req, res) => {
-            const newEvent = req.body;
-            console.log(newEvent);
-            const result = await eventsCollection.insertOne(newEvent);
-            res.send(result);
-        });
+
+    app.post('/events', async (req, res) => {
+      const newEvent = req.body;
+      console.log(newEvent);
+      const result = await eventsCollection.insertOne(newEvent);
+      res.send(result);
+    });
 
 
     // Connect the client to the server	(optional starting in v4.7)
@@ -57,7 +64,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('AthleticHub server is ready')
+  res.send('AthleticHub server is ready')
 })
 
 app.listen(port, () => {
