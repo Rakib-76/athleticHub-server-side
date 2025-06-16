@@ -28,18 +28,30 @@ async function run() {
   try {
 
     const eventsCollection = client.db('athleticsHub').collection('events');
+    const bookingsCollection = client.db('athleticsHub').collection('bookings')
 
 
     app.get('/events', async (req, res) => {
       const events = await eventsCollection.find().toArray();
       res.send(events);
     });
+
+
     app.get('/events/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await eventsCollection.findOne(query);
       res.send(result);
     });
+
+
+    app.get('/bookings', async (req, res) => {
+      const userEmail = req.query.email;
+      const query = { user_email: userEmail };
+      const bookings = await bookingsCollection.find(query).toArray();
+      res.send(bookings);
+    });
+
 
 
 
@@ -51,12 +63,31 @@ async function run() {
       res.send(result);
     });
 
+    app.post('/bookings', async (req, res) => {
+      const booking = req.body;
+      console.log(booking);
+      const result = await bookingsCollection.insertOne(booking);
+      res.send(result);
+    });
+
+
+
+
     app.delete('/events/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) }
       const result = await eventsCollection.deleteOne(query);
       res.send(result)
     });
+
+    app.delete('/bookings/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: id }; 
+      const result = await bookingsCollection.deleteOne(query);
+      res.send(result);
+    });
+
+
 
 
     app.put('/events/:id', async (req, res) => {
