@@ -45,11 +45,21 @@ async function run() {
     });
 
 
+
     app.get('/bookings', async (req, res) => {
       const userEmail = req.query.email;
       const query = { user_email: userEmail };
       const bookings = await bookingsCollection.find(query).toArray();
       res.send(bookings);
+    });
+
+
+    
+    app.get('/my-events', async (req, res) => {
+      const userEmail = req.query.email;
+      const query = {email: userEmail};
+      const events = await eventsCollection.find(query).toArray();
+      res.send(events);
     });
 
 
@@ -108,8 +118,8 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    // await client.db("admin").command({ ping: 1 });
+    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
