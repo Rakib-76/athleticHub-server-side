@@ -29,7 +29,7 @@ async function run() {
 
 
     // here it is used for getting all event that were i create
-    
+
 
     app.get('/events', async (req, res) => {
       const events = await eventsCollection.find().toArray();
@@ -79,7 +79,7 @@ async function run() {
 
 
 
-
+    // here it is used for delete operation
     app.delete('/events/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) }
