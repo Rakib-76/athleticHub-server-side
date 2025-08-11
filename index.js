@@ -28,6 +28,9 @@ async function run() {
     const bookingsCollection = client.db('athleticsHub').collection('bookings')
 
 
+    // here it is used for getting all event that were i create
+    
+
     app.get('/events', async (req, res) => {
       const events = await eventsCollection.find().toArray();
       res.send(events);
