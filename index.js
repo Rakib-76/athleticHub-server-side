@@ -53,8 +53,6 @@ async function run() {
       res.send(bookings);
     });
 
-
-    
     app.get('/my-events', async (req, res) => {
       const userEmail = req.query.email;
       const query = {email: userEmail};
