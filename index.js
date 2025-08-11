@@ -33,7 +33,7 @@ async function run() {
       res.send(events);
     });
 
-
+    // here it is used for details page 
     app.get('/events/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
