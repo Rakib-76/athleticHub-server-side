@@ -5,12 +5,9 @@ require('dotenv').config()
 const app = express();
 const port = process.env.PORT || 3000;
 
-
+// middleware
 app.use(cors());
 app.use(express.json());
-
-
-
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.mrsp38p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -61,9 +58,6 @@ async function run() {
       const events = await eventsCollection.find(query).toArray();
       res.send(events);
     });
-
-
-
 
 
     app.post('/events', async (req, res) => {
