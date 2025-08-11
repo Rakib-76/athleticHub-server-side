@@ -23,7 +23,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-
+    // Here the collection
     const eventsCollection = client.db('athleticsHub').collection('events');
     const bookingsCollection = client.db('athleticsHub').collection('bookings')
 
